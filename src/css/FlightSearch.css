@@ -1,3 +1,4 @@
+/* General body styling */
 body {
     background: linear-gradient(to right, #D4145A, #FBB03B);
     color: #fff;
@@ -5,38 +6,62 @@ body {
     margin: 0;
     padding: 0;
 }
+
+/* Main wrapper for the flight search page */
 .flight-search-wrapper {
-    width: 60%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 2rem;
-    margin-top: 2rem;
 }
 
+/* Filter container styling */
 .filter-container {
-    background: rgba(255, 255, 255, 0.12);
-    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 2rem;
     border-radius: 12px;
     backdrop-filter: blur(12px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     width: 100%;
     max-width: 800px;
+    margin: 0 auto;
     text-align: center;
-    margin-bottom: 1.5rem;
 }
 
+/* Search header styling */
+.search-header h2 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 600;
+}
 
-.filter-container label {
+/* Search form styling */
+.search-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+    justify-content: center;
+}
+
+.form-row {
+    flex: 1 1 200px;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row label {
     font-weight: bold;
     color: #fff;
-    display: block;
-    text-align: left;
     margin-bottom: 0.3rem;
+    text-align: left;
 }
 
-.filter-container input,
-.filter-container select {
+.form-row input,
+.form-row select {
     padding: 0.7rem;
     border: none;
     border-radius: 8px;
@@ -44,32 +69,31 @@ body {
     color: #fff;
     width: 100%;
     font-size: 1rem;
-    margin-bottom: 0.7rem;
 }
 
-.filter-container input::placeholder {
-    color: #ddd;
-}
-
+/* Flights container styling */
 .flights-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1.5rem;
+    gap: 2rem;
     width: 100%;
-    max-width: 900px;
-    margin-top: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
+/* Flight card styling */
 .flight-card {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(10px);
     border-radius: 12px;
     padding: 1.5rem;
-    width: 350px;
+    width: 100%;
+    max-width: 800px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     text-align: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 0 auto 20px;
 }
 
 .flight-card:hover {
@@ -78,20 +102,20 @@ body {
 }
 
 .flight-card h3 {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     color: #f1c40f;
     margin-bottom: 0.5rem;
 }
 
 .flight-card .route {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 0.75rem;
     color: #ffffff;
 }
 
 .flight-card p {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     margin: 0.3rem 0;
     color: #dcdcdc;
 }
@@ -107,21 +131,45 @@ body {
     font-weight: bold;
 }
 
+.seat-class {
+    font-weight: 600;
+}
+
+.price {
+    color: #000000;
+}
+
 .book-btn {
-    background: #27ae60;
-    color: #fff;
+    background-color: #27ae60;
+    color: white;
+    font-size: 1rem;
     padding: 0.75rem;
     border: none;
     border-radius: 6px;
-    font-size: 1rem;
     cursor: pointer;
+    transition: background 0.3s ease;
     margin-top: 0.5rem;
-    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .book-btn:hover {
-    background: #2ecc71;
-    transform: scale(1.05);
+    background-color: #27ae00;
+}
+
+
+.search-btn {
+    background-color: #27ae60;
+    color: white;
+    font-size: 1rem;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 0.5rem;
+}
+
+.search-btn:hover {
+    background-color: #27ae00;
 }
 
 @media (max-width: 768px) {
@@ -129,11 +177,9 @@ body {
         flex-direction: column;
         align-items: center;
     }
-
     .filter-container {
         width: 95%;
     }
-
     .flight-card {
         width: 95%;
     }

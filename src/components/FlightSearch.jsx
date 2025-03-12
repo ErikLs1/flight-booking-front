@@ -98,8 +98,8 @@ function FlightSearch() {
     };
 
     return (
-        <div className="fligth-search-wrapper">
-            <div className="filter-contaier">
+        <div className="flight-search-wrapper">
+            <div className="filter-container">
                 <div className="search-header">
                     <h2>Start your journey</h2>
                 </div>
@@ -112,6 +112,7 @@ function FlightSearch() {
                             options={airportOptions}
                             placeholder="Select city"
                             isClearable
+                            maxMenuHeight={200}
                         />
                     </div>
                     <div className="form-row">
@@ -122,6 +123,7 @@ function FlightSearch() {
                             options={airportOptions}
                             placeholder="Select city"
                             isClearable
+                            maxMenuHeight={200}
                         />
                     </div>
                     <div className="form-row">
@@ -132,6 +134,7 @@ function FlightSearch() {
                             options={airlineOptions}
                             placeholder="Select airline"
                             isClearable
+                            maxMenuHeight={200}
                         />
                     </div>
                     <div className="form-row">
@@ -210,7 +213,7 @@ function FlightSearch() {
                                 </div>
                             ))}
                         </div>
-                        <button className="book-btn" onClick={() => navigate(`/booking/${flight.flightId}`)}>
+                        <button className="book-btn" onClick={() => navigate(`/passengers-info/${flight.flightId}`)}>
                             Book
                         </button>
                     </div>
