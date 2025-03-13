@@ -67,7 +67,6 @@ function FlightSearch() {
 
     const handleSearch = async (e) => {
         e.preventDefault();
-
         // Combine start date/time
         let startDateTime = null;
         if (departureStartDate && departureStartTime) {
@@ -79,17 +78,18 @@ function FlightSearch() {
             endDateTime = `${departureEndDate}T${departureEndTime}:00`
         }
 
+        const maxPriceValue = maxPrice && maxPrice !== "" ? parseFloat(maxPrice) : null;
+
         const filterDTO = {
             departureCity: departureCity ? departureCity.value : null,
             arrivalCity: arrivalCity ? arrivalCity.value : null,
             airlineName: airlineName ? airlineName.value : null,
-            maxPrice: maxPrice ? parseFloat(maxPrice) : null,
+            maxPrice: maxPriceValue,
             departureStartTime: startDateTime,
             departureEndTime: endDateTime,
         }
-
         try {
-            const response = await api.post("api/flight/filter", filterDTO);
+            const response = await api.post("/api/flight/filter", filterDTO);
             setFlights(response.data);
         } catch (error) {
             console.error("Failed to filter flights: ", error);

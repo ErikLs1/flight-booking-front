@@ -1,9 +1,10 @@
+import "../css/NavBar.css"
 
 function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
-                <a className="navbar-brand" href="#">Navbar</a>
+                <a className="navbar-brand" href="/">F-Booking</a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -12,13 +13,10 @@ function Navbar() {
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="#">Home</a>
+                            <a className="nav-link active" aria-current="page" href="/">Home</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Features</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">Pricing</a>
+                            <a className="nav-link" href="/my-tickets">My Tickets</a>
                         </li>
                     </ul>
                 </div>

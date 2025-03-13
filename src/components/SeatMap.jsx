@@ -1,6 +1,5 @@
-import React from "react";
+import React, {useState} from "react";
 import "../css/SeatMap.css";
-import Data from "bootstrap/js/src/dom/data.js";
 
 function groupSeatsByRow(seats) {
     const map = {};
@@ -14,7 +13,7 @@ function groupSeatsByRow(seats) {
     return map;
 }
 
-function SeatMap({seats, aircraftModel}) {
+function SeatMap({seats, aircraftModel, onSeatClick, assignedSeatIds = []}) {
     let setLetters = [];
     if (aircraftModel === "Airbus A320" ||
         aircraftModel === "Airbus A321" ||
@@ -34,6 +33,11 @@ function SeatMap({seats, aircraftModel}) {
     const sortedRows = Object.keys(seatsByRow)
         .map((r) => parseInt(r, 10))
         .sort((a, b) => a - b);
+
+    const handleClick = (seat) => {
+        if (seat.isBooked) return;
+        onSeatClick(seat);
+    }
 
     return (
         <div className="seatmap-container">
@@ -61,13 +65,17 @@ function SeatMap({seats, aircraftModel}) {
                                 const classes = [
                                     "seat-block",
                                     seatObj.isBooked ? "booked" : "",
-                                    seatObj.recommended ? "recommended" : ""
+                                    seatObj.recommended ? "recommended" : "",
+                                    assignedSeatIds.includes(seatObj.flightSeatId) ? "selected" : ""
                                 ]
                                     .filter(Boolean)
                                     .join(" ");
 
                                 return (
-                                    <div className={classes} key={seatObj.seatId}>
+                                    <div className={classes}
+                                         key={seatObj.flightSeatId}
+                                         onClick={() => handleClick(seatObj)}
+                                    >
                                         {letter}
                                     </div>
                                 )

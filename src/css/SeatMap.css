@@ -1,4 +1,3 @@
-/* Seat Map Styling */
 .seatmap-container {
     display: flex;
     flex-direction: column;
@@ -26,7 +25,6 @@
     align-items: center;
 }
 
-/* Seat Styling */
 .seat-block {
     width: 35px;
     height: 35px;
@@ -40,37 +38,31 @@
     transition: all 0.3s ease;
 }
 
-/* Free Seats (Green) */
 .seat-block:not(.booked):not(.selected) {
     background-color: #28a745;
     color: white;
 }
 
-/* Booked Seats (Red) */
 .seat-block.booked {
     background-color: #dc3545;
     color: white;
     cursor: not-allowed;
 }
 
-/* Selected Seats (Yellow) */
 .seat-block.selected {
     background-color: #ffc107;
     color: black;
 }
 
-/* Recommended Seats (Blue Border) #30D5C8*/
 .seat-block.recommended {
-    border: 5px solid #6F4E37;
+    border: 3px solid #30D5C8;
 }
 
-/* Empty (Aisle) Block */
 .aisle-block {
     width: 20px;
     height: 35px;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .seatmap-container {
         flex-direction: column;
