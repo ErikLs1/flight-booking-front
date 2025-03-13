@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api.js";
-import "../css/TicketInfoPage.css"
+import api from "../../../api.js";
+import "./styles/TicketInfoPage.css"
 
 function TicketInfoPage() {
     const [email, setEmail] = useState("");

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import "../css/SeatMap.css";
+import "./styles/SeatMap.css";
 
 function groupSeatsByRow(seats) {
     const map = {};

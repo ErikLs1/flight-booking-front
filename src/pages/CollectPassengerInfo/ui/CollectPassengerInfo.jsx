@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "../css/CollectPassengerInfo.css"
+import "./styles/CollectPassengerInfo.css"
 
 function CollectPassengerInfo() {
     const { flightId } = useParams();

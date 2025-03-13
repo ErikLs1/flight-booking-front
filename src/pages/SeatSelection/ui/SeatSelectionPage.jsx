@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import api from "../api.js";
+import api from "../../../api.js";
 import SeatMap from "./SeatMap.jsx";
-import "../css/SeatSelectionPage.css"
+import "./styles/SeatSelectionPage.css"
 
 function SeatSelectionPage() {
     const { flightId } = useParams();

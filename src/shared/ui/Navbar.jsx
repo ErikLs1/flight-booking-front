@@ -1,10 +1,10 @@
-import "../css/NavBar.css"
+import "./NavBar.css"
 
 function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid">
-                <a className="navbar-brand" href="/">F-Booking</a>
+                <a className="navbar-brand" href="/flight-frontend/public">F-Booking</a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
                         aria-label="Toggle navigation">
@@ -13,7 +13,7 @@ function Navbar() {
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="/">Home</a>
+                            <a className="nav-link active" aria-current="page" href="/flight-frontend/public">Home</a>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="/my-tickets">My Tickets</a>

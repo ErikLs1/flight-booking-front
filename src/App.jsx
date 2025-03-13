@@ -1,11 +1,11 @@
 
-import Navbar from "./components/Navbar.jsx";
-import FlightSearch from "./components/FlightSearch.jsx";
+import Navbar from "./shared/ui/Navbar.jsx";
+import FlightSearch from "./pages/FlightSearch/ui/FlightSearch.jsx";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import SeatSelectionPage from "./components/SeatSelectionPage.jsx";
-import CollectPassengerInfo from "./components/CollectPassengerInfo.jsx";
-import FlightSummaryPage from "./components/FlightSummaryPage.jsx";
-import TicketInfoPage from "./components/TicketInfoPage.jsx";
+import SeatSelectionPage from "./pages/SeatSelection/ui/SeatSelectionPage.jsx";
+import CollectPassengerInfo from "./pages/CollectPassengerInfo/ui/CollectPassengerInfo.jsx";
+import FlightSummaryPage from "./pages/FlightSummary/ui/FlightSummaryPage.jsx";
+import TicketInfoPage from "./pages/TicketInformation/ui/TicketInfoPage.jsx";
 
 function App() {
 

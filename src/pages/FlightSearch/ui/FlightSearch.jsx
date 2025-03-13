@@ -1,15 +1,14 @@
-import api from "../api.js";
+import api from "../../../api.js";
 import React, {useState, useEffect} from "react";
-import '../css/FlightSearch.css';
+import './styles/FlightSearch.css';
 import Select from "react-select";
 import {useNavigate} from "react-router-dom";
+import {fetchFlights, fetchAirports, fetchAirlines, filterFlights} from "../api/FlightApi.js";
 
 function FlightSearch() {
     // States for field options
     const [airportOptions, setAirportOptions] = useState([]);
     const [airlineOptions, setAirlineOptions] = useState([]);
-
-    // Flight results
     const [flights, setFlights] = useState([]);
 
     // Search fields
@@ -30,9 +29,9 @@ function FlightSearch() {
         fetchAirports();
     }, []);
 
-    const fetchAirports = async () => {
+    const getAirports = async () => {
         try {
-            const response = await api.get("/api/airport")
+            const response = await fetchAirports();
             const options = response.data.map((airport) => ({
                 value: airport.airportCity,
                 label: airport.airportCity
@@ -43,9 +42,9 @@ function FlightSearch() {
         }
     }
 
-    const fetchAllAirlines = async () => {
+    const getAirlines = async () => {
         try {
-            const response = await api.get("/api/airline")
+            const response = await fetchAirlines();
             const options = response.data.map((airline) => ({
                 value: airline.airlineName,
                 label: airline.airlineName
@@ -56,9 +55,9 @@ function FlightSearch() {
         }
     }
 
-    const fetchAllFlights = async () => {
+    const getAllFlights = async () => {
         try {
-            const response = await api.get('/api/flight');
+            const response = await fetchFlights()
             setFlights(response.data);
         } catch (error) {
             console.error("Failed to fetch flights: ", error);
@@ -89,7 +88,7 @@ function FlightSearch() {
             departureEndTime: endDateTime,
         }
         try {
-            const response = await api.post("/api/flight/filter", filterDTO);
+            const response = await filterFlights(filterDTO);
             setFlights(response.data);
         } catch (error) {
             console.error("Failed to filter flights: ", error);

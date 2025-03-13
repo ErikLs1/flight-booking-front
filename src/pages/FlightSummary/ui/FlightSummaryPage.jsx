@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import api from "../api.js";
-import "../css/FlightSummaryPage.css"
+import api from "../../../api.js";
+import "./styles/FlightSummaryPage.css"
 
 function FlightSummaryPage() {
     const { flightId } = useParams();
