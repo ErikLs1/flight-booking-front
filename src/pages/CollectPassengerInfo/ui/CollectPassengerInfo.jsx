@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./styles/CollectPassengerInfo.css"
+import PassengerForm from "./PassengerForm.jsx";
+import { validateName, validateEmail, validatePhone } from "../../../shared/utils/validation.js";
 
 function CollectPassengerInfo() {
     const { flightId } = useParams();
@@ -24,22 +26,6 @@ function CollectPassengerInfo() {
             ...passengers,
             {firstName: "", lastName: "", email: "", phone: ""}
         ]);
-    }
-
-    // Validation check
-    const validateEmail = (email) => {
-        const emailRegex = /^\S+@\S+\.\S+$/;
-        return emailRegex.test(email);
-    }
-
-    const validateName = (name) => {
-        const nameRegex = /^[A-Za-z]+$/;
-        return nameRegex.test(name);
-    }
-
-    const validatePhone = (phone) => {
-        const phoneRegex = /^\+\d+$/;
-        return phoneRegex.test(phone);
     }
 
     const removePassenger = (index) => {
@@ -94,51 +80,14 @@ function CollectPassengerInfo() {
                 <h2 className="passenger-info-title">Enter Passenger Information</h2>
                 <form className="passenger-form-container" onSubmit={handleSubmit}>
                     {passengers.map((passenger, index) => (
-                        <div key={index} className="passenger-form">
-                            <h3>Passenger {index + 1}</h3>
-                            <div className="form-row">
-                                <label>First Name</label>
-                                <input
-                                    type="text"
-                                    value={passenger.firstName}
-                                    onChange={(e) => handlePassengerChange(index, "firstName", e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="form-row">
-                                <label>Last Name</label>
-                                <input
-                                    type="text"
-                                    value={passenger.lastName}
-                                    onChange={(e) => handlePassengerChange(index, "lastName", e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="form-row">
-                                <label>Email</label>
-                                <input
-                                    type="text"
-                                    value={passenger.email}
-                                    onChange={(e) => handlePassengerChange(index, "email", e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="form-row">
-                                <label>Phone</label>
-                                <input
-                                    type="text"
-                                    value={passenger.phone}
-                                    onChange={(e) => handlePassengerChange(index, "phone", e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <p>&nbsp;</p>
-                            {passengers.length > 1 && (
-                                <button type="button" className="remove-btn" onClick={() => removePassenger(index)}>
-                                    <strong>Remove</strong>
-                                </button>
-                            )}
-                        </div>
+                        <PassengerForm
+                            key={index}
+                            index={index}
+                            passenger={passenger}
+                            onChange={handlePassengerChange}
+                            onRemove={removePassenger}
+                            showRemoveButton={passengers.length > 1}
+                        />
                     ))}
                     <div className="passenger-buttons-container">
                         <button type="button" className="add-btn" onClick={addPassenger}>

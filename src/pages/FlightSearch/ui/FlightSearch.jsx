@@ -1,4 +1,3 @@
-import api from "../../../api.js";
 import React, {useState, useEffect} from "react";
 import './styles/FlightSearch.css';
 import Select from "react-select";
@@ -24,9 +23,9 @@ function FlightSearch() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetchAllFlights();
-        fetchAllAirlines();
-        fetchAirports();
+        getAirports();
+        getAirlines();
+        getAllFlights();
     }, []);
 
     const getAirports = async () => {

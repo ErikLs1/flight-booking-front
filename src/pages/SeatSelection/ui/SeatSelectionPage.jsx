@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import api from "../../../api.js";
+import { fetchAllSeatsForFlight, fetchAircraftModel, fetchSeatClasses, fetchFlightCities, recommendSeats} from "../api/SeatApi.js";
 import SeatMap from "./SeatMap.jsx";
+import SeatFilterComponent from "./SeatFilterComponent.jsx";
+import PassengerComponent from "./PassengerComponent.jsx";
 import "./styles/SeatSelectionPage.css"
 
 function SeatSelectionPage() {
@@ -28,40 +30,41 @@ function SeatSelectionPage() {
 
     const [selectedSeatIds, setSelectedSeatIds] = useState([]);
 
+    // Seat assignments
     const [assignments, setAssignments] = useState(Array(passengerCount).fill(null));
-
     const [currentPassengerIndex, setCurrentPassengerIndex] = useState(0);
+    const assignedSeats = assignments.filter((id) => id !== null)
 
 
     // Get all seats for the flight
     useEffect(() => {
-        fetchAllSeatsForFlight();
-        fetchAircraftModel();
-        fetchSeatClasses();
-        fetchFlightCities();
+        getSeats();
+        getAircraftModel();
+        getSeatClasses();
+        getFlightCities();
     }, [flightId]);
 
-    const fetchAllSeatsForFlight = async () => {
+    const getSeats = async () => {
         try {
-            const response = await api.get(`/api/flightSeat/flight/${flightId}`);
+            const response = await fetchAllSeatsForFlight(flightId);
             setFlightSeats(response.data);
         } catch (error) {
             console.error("Could not get flight seats: ", error);
         }
     };
 
-    const fetchAircraftModel = async () => {
+    const getAircraftModel = async () => {
         try {
-            const response = await api.get(`/api/flight/${flightId}/aircraft-model`);
+            const response = await fetchAircraftModel(flightId);
             setAircraftModel(response.data);
         } catch (error) {
             console.error("Could not get aircraft model: ", error);
         }
     }
 
-    const fetchSeatClasses = async () => {
+    const getSeatClasses = async () => {
         try {
-            const response = await api.get(`/api/flight/${flightId}/seat-classes`);
+            const response = await fetchSeatClasses(flightId);
             setAvailableSeatClasses(response.data);
         } catch (error) {
             console.error("Could not get seat classes: ", error);
@@ -69,9 +72,9 @@ function SeatSelectionPage() {
 
     }
 
-    const fetchFlightCities = async () => {
+    const getFlightCities = async () => {
         try {
-            const response = await api.get(`/api/flight/${flightId}/cities`);
+            const response = await fetchFlightCities(flightId);
             setFlightCities(response.data);
         } catch (error) {
             console.error("Could not get cities: ", error);
@@ -91,10 +94,9 @@ function SeatSelectionPage() {
                 adjacentPreferred
             };
 
-            const response = await api.post("/api/seat/recommend", requestBody);
+            const response = await recommendSeats(requestBody);
             const recommendedSeats = response.data;
-
-            const recommendedSeatIds = recommendedSeats.map(seat => seat.seatId)
+            const recommendedSeatIds = recommendedSeats.map((seat) => seat.seatId)
             setRecommendedSeatIds(recommendedSeatIds)
         } catch (error) {
             console.error("Failed to apply filters: ", error)
@@ -132,125 +134,49 @@ function SeatSelectionPage() {
         });
     }
 
+    const recommendedSeats = flightSeats.map(seat => ({
+        ...seat,
+        recommended: recommendedSeatIds.includes(seat.seatId)
+    }));
+
     return (
         <div className="seat-selection-container">
             <h2>{flightCities[0]} → {flightCities[1]}</h2>
-            <div className="filters-container">
-                <h3>Recommendation Filters</h3>
-                <div className="filter-group">
-                    <label>Seat class:</label>
-                    <select value={seatClassType} onChange={(e) => setSeatClassType(e.target.value)}>
-                        <option value="">Any</option>
-                        {availableSeatClasses.map((seatClass) => (
-                            <option key={seatClass} value={seatClass}>{seatClass.
-                                toLowerCase()
-                                .split('_')
-                                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                                .join(' ')}</option>
-                        ))}
-                    </select>
-                </div>
-
-                <div className="filter-group">
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={windowPreferred}
-                            onChange={(e) => setWindowPreferred(e.target.checked)}
-                        />
-                        Window
-                    </label>
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={aislePreferred}
-                            onChange={(e) => setAislePreferred(e.target.checked)}
-                        />
-                        Aisle
-                    </label>
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={extraLegRoomPreferred}
-                            onChange={(e) => setExtraLegRoomPreferred(e.target.checked)}
-                        />
-                        Extra Legroom
-                    </label>
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={nearExitPreferred}
-                            onChange={(e) => setNearExitPreferred(e.target.checked)}
-                        />
-                        Near Exit
-                    </label>
-                </div>
-
-                {passengerCount > 1 && (
-                    <div className="filter-group">
-                        <label>
-                            <input
-                                type="checkBox"
-                                checked={adjacentPreferred}
-                                onChange={(e) => setAdjacentPreferred(e.target.checked)}
-                            />
-                            Required Adjacent
-                        </label>
-                    </div>
-                )}
-
-                <button className="apply-filters-btn" onClick={handleRecommendation}>
-                    Recommend Seats
-                </button>
-            </div>
+            <SeatFilterComponent
+                seatClassType={seatClassType}
+                setSeatClassType={setSeatClassType}
+                windowPreferred={windowPreferred}
+                setWindowPreferred={setWindowPreferred}
+                aislePreferred={aislePreferred}
+                setAislePreferred={setAislePreferred}
+                nearExitPreferred={nearExitPreferred}
+                setNearExitPreferred={setNearExitPreferred}
+                extraLegRoomPreferred={extraLegRoomPreferred}
+                setExtraLegRoomPreferred={setExtraLegRoomPreferred}
+                adjacentPreferred={adjacentPreferred}
+                setAdjacentPreferred={setAdjacentPreferred}
+                passengerCount={passengerCount}
+                onRecommend={handleRecommendation}
+                availableSeatClasses={availableSeatClasses}
+            />
 
             <div className="seat-selection-content">
-                <div className="passenger-panel">
-                    <h2>Passengers</h2>
-                    {passengers.map((p, index) => {
-                        const assignedSeatId = assignments[index];
-                        const seatObj = flightSeats.find((s) => s.flightSeatId === assignedSeatId);
-                        return (
-                            <div key={index}
-                                 className={`passenger-item ${index === currentPassengerIndex ? "active" : ""}`}
-                                 onClick={() => handlePassengerSelect(index)}
-                            >
-                                <div className="passenger-name">
-                                    {p.firstName} {p.lastName}
-                                </div>
-                                <div className="assigned-seat">
-                                    {seatObj ? seatObj.seatNumber : "None"}
-                                </div>
-                            </div>
-                        )
-                    })}
-                </div>
+                <PassengerComponent
+                    passengers={passengers}
+                    assignments={assignments}
+                    currentPassengerIndex={currentPassengerIndex}
+                    onPassengerSelect={handlePassengerSelect}
+                    flightSeats={flightSeats}
+                />
                 <div className="seat-map-panel">
                     <SeatMap
-                        seats={flightSeats.map(seat =>({
-                            ...seat, recommended: recommendedSeatIds.includes(seat.seatId)
-                        }))}
+                        seats={recommendedSeats}
                         aircraftModel={aircraftModel}
                         onSeatClick={handleSeatClick}
-                        assignedSeatIds={assignments.filter((id) => id !== null)}
+                        assignedSeatIds={assignedSeats}
                     />
                 </div>
             </div>
-
-            {/*<div className="seat-map-panel">*/}
-            {/*    <SeatMap*/}
-            {/*        seats={flightSeats.map(seat =>({*/}
-            {/*            ...seat, recommended: recommendedSeatIds.includes(seat.seatId)*/}
-            {/*        }))}*/}
-            {/*        aircraftModel={aircraftModel}*/}
-            {/*        onSeatClick={handleSeatClick}*/}
-            {/*        assignedSeatIds={assignments.filter((id) => id !== null)}*/}
-            {/*    />*/}
-            {/*</div>*/}
-
-            {/*<button className="next-btn" onClick={handleNext}>*/}
-            {/*    Flight Summary*/}
-            {/*</button>*/}
             <button className="next-btn" onClick={handleNext}>
                 Flight Summary
             </button>
